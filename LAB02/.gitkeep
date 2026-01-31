@@ -1,0 +1,99 @@
+""" 
+
+Function 1
+def function1(number):
+    total = 0
+    for i in range(number):
+        x = i + 1
+        total += x * x
+    return total
+
+Input size: Let n = number (assume n ≥ 0).
+Analysis:
+
+The loop runs exactly n times (i = 0 to n-1).
+Inside the loop there are a constant number of basic operations:
+1 addition (i + 1)
+1 multiplication (x * x)
+1 addition and assignment (total += ...)
+
+All these are O(1) per iteration.
+
+Total operations ≈ c × n for some constant c (roughly 3–4 primitive operations per loop iteration)
+→ T(n) = Θ(n)
+Final complexity: O(n) (linear)
+Note: This function actually computes the sum of squares formula result: 1² + 2² + … + n².
+
+
+
+Function 2
+def function2(number):
+    return (number * (number + 1) * (2 * number + 1)) // 6
+
+
+Input size: Let n = number.
+Analysis:
+
+Only a fixed number of arithmetic operations appear: 4 multiplications, 2 additions, 1 integer division, and 1 subtraction (inside 2*number+1).
+No loops or recursion.
+All operations are performed exactly once, regardless of how large n is.
+
+Total operations = constant (e.g. ≈ 7–8 primitive arithmetic steps)
+→ T(n) = Θ(1)
+Final complexity: O(1) (constant time)
+Note: This is the closed-form formula for the sum of squares: 1² + 2² + … + n² — exactly what function1 computes, but very efficiently.
+
+
+Function 3
+def function3(list):
+    n = len(list)
+    for i in range(n - 1):
+        for j in range(n - 1 - i):
+            if list[j] > list[j+1]:
+                tmp = list[j]
+                list[j] = list[j+1]
+                list[j + 1] = tmp
+
+
+Input size: Let n = len(list) (assume n ≥ 1).
+Analysis — this is bubble sort (without the early termination optimization):
+Outer loop: runs n−1 times (i = 0 to n-2)
+Inner loop: for each i, runs n−1−i times
+Number of comparisons (and potential swaps):
+
+When i=0: n−1 comparisons
+When i=1: n−2 comparisons
+...
+When i=n-2: 1 comparison
+
+Total number of comparisons = (n−1) + (n−2) + … + 1 = n(n−1)/2
+Each comparison is followed by at most 3 assignments (in the worst case when a swap occurs).
+Total operations ≈ 3 × n(n−1)/2 + lower order terms ≈ (3/2) n² − (3/2) n
+Dominant term is clearly n².
+→ T(n) = Θ(n²) in the worst and average case
+Final complexity: O(n²) (quadratic)
+
+
+Function 4
+def function4(number):
+    total = 1
+    for i in range(1, number):
+        total *= i + 1
+    return total
+
+
+Input size: Let n = number (assume n ≥ 1).
+Analysis:
+
+The loop runs from i=1 to i=n−1 → exactly n−1 iterations.
+In each iteration: one multiplication (total *= i + 1) and one addition (i + 1).
+Both are O(1) per iteration (assuming standard integer multiplication cost; note that for very large n the numbers become huge and multiplication cost grows, but in basic analysis we treat arithmetic as O(1)).
+
+Total operations ≈ c × (n−1) for some constant c
+→ T(n) = Θ(n)
+Final complexity: O(n) (linear)
+Note: This function computes n! (n factorial), starting from 1 and multiplying by 2, 3, …, n.
+
+
+
+"""
