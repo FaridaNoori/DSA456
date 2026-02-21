@@ -117,7 +117,6 @@ plt.grid(True, linestyle='--', alpha=0.7)
 plt.legend()
 plt.tight_layout()
 
-# Optional: log scale on y-axis makes differences clearer
 # plt.yscale('log')
 
 plt.show()
