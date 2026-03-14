@@ -1,0 +1,46 @@
+1. INSERT diagram
+
+          data
+           │
+           ▼
+Self ──► [data1] ──► [data2] ──► [data] ──► [data3] ──► [data4] ──► (back)
+       ◄──        ◄──        ◄──        ◄──        ◄──
+       (Self)    (data1)    (data2)    (data)     (data3)
+
+
+Updated pointer table: Insert walks until it finds the spot where the next 
+node is bigger than “data”, then updates exactly 4 pointers (two next + 
+two prev). That keeps the list sorted and doubly linked.
+
+Insert,         Self,   data,   data1,    data2,   data3,   data4
+front (next),   data1,  data3,  data2,    data,    data4,   back
+back (prev),    back,   data2,  Self,     data1,   data,    data3
+
+2. DELETE diagram
+
+Self ──► [data1] ──► [data3] ──► [data4] ──► (back)
+       ◄──        ◄──        ◄──
+       (data2 removed — crossed out)
+
+Updated pointer table: Delete finds the matching node, then connects its 
+previous node directly to its next node (2 pointer changes). If multiple 
+matches existed you would repeat, but one removal is enough to show the 
+idea.
+
+Delete,         Self,    data,  data1,  data2,  data3,  data4
+front (next),   data1,  (none), data3,  (gone), data4,  back
+back (prev),    back,   (none), Self,   (gone), data1,  data3
+
+3. IS_PRESENT diagram
+
+Self ──► [data1] ──► [data2] ──► [data3] ──► [data4] ──► (back)
+       ◄──        ◄──        ◄──        ◄──
+          (dashed search path along next arrows)
+
+Updated pointer table: is_present just walks from Self using 
+.next until it finds the value or reaches the back sentinel. 
+No next or prev pointers are ever changed.
+
+is_present,     Self,   data,   data1,  data2,  data3,  data4
+front (next),   data1,  (n/a),  data2,  data3,  data4,  back
+back (prev),    back,   (n/a),  Self,   data1,  data2,  data3

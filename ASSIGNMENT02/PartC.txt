@@ -1,0 +1,20 @@
+Part C: Analysis (Big-O)
+Let n = number of nodes in the list (excluding sentinels).
+
+insert(self, data): O(n)
+Worst case: traverse all n nodes to reach the end (when inserting the largest value). 
+Pointer updates are O(1) once the spot is found.
+remove(self, data): O(n)
+Must traverse the entire list in the worst case (data not present or at the end). 
+Removing multiple matches still stays O(n) because each node is visited once.
+is_present(self, data): O(n)
+Worst case: scan every node until the end (data not present or at the back).
+len(self): O(1)
+We maintain a _size counter updated on every insert/remove. No traversal needed.
+
+Explanation: A (doubly) linked list has no random access, so any operation that needs to 
+find a position or value must walk sequentially from the front sentinel — that’s linear in n. 
+Keeping a size counter is the only place we can get constant time. Using sentinels simplifies 
+edge cases (empty list, insert at front/back) but doesn’t change the O(n) traversals. This is the
+ standard complexity for a sorted linked list; faster search would require a different structure 
+ (skip list, etc.).
