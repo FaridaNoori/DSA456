@@ -1,0 +1,43 @@
+Function,   Time Complexity,                Reason / Dominant Operation
+insert,     O(n²),                          search is O(n) + resize copy is O(n) + bubble sort on n elements is O(n²). The sort runs on every successful insert.
+modify,     O(n),                           Linear scan to find the key (worst case scans all n records). Update is O(1).
+remove,     O(n),                           Linear scan to find key (O(n)) + shifting remaining elements left (O(n)).
+search,     O(n),                           Plain linear scan from index 0 (does not use the fact that the list is sorted).
+capacity,   O(1),                           Simply returns the stored self.cap value.
+__len__,    O(capacity)≈O(n) in practice,   Scans the entire underlying list (up to current capacity) counting non-None entries every time. Very wasteful.
+
+Key observations:
+
+The class keeps the list sorted by key after every insert, but never exploits this ordering (no binary search).
+insert is extremely inefficient due to full bubble sort on every addition.
+__len__ should be O(1) — it should maintain a size counter instead of rescanning.
+
+
+To make it much faster while still using a sorted array:
+
+Maintain a self.size counter
+Increment on insert, decrement on remove.
+ __len__ becomes O(1) and loops can use self.size instead of scanning capacity.
+
+Use binary search (add a helper method)
+Since records are kept sorted by key, search, the duplicate check in insert, and modify can all become O(log n) instead of O(n).
+
+Improve insert
+Instead of bubble sort, use binary search to find the correct position for the new key (O(log n)), then shift elements right to make space (O(n)).
+insert improves from O(n²) to O(n).
+
+Improve remove
+Use binary search to locate the key (O(log n)), then shift remaining elements left (O(n)).
+Overall still O(n) (shifting dominates), but faster in practice.
+For modify
+Reuse the binary search helper O(log n).
+
+Summary of improvements:
+
+capacity: O(1) (already optimal)
+__len__: O(capacity) → O(1)
+search: O(n) → O(log n)
+insert: O(n²) → O(n)
+modify: O(n) → O(log n)
+remove: O(n) → O(n) (still limited by shifting)
+
